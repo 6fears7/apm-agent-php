@@ -62,12 +62,12 @@ final class PhpPartFacade
 
     private function __construct(float $requestInitStartTime)
     {
-        
-        echo "-----1-"
+
+        echo "-----1-";
         if (!ElasticApmExtensionUtil::isLoaded()) {
             throw new RuntimeException(ElasticApmExtensionUtil::EXTENSION_NAME . ' extension is not loaded');
         }
-        echo "-----2-"
+        echo "-----2-";
 
         $tracer = self::buildTracer();
         if ($tracer === null) {
@@ -77,7 +77,7 @@ final class PhpPartFacade
                 __FUNCTION__
             );
             return;
-                    echo "-----3-"
+            echo "-----3-";
 
         }
 
@@ -103,7 +103,7 @@ final class PhpPartFacade
             __LINE__,
             __FUNCTION__
         );
-        echo "-----4-"
+        echo "-----4-";
 
         if (self::$singletonInstance !== null) {
             BootstrapStageLogger::logCritical(
@@ -114,7 +114,7 @@ final class PhpPartFacade
             );
             return false;
         }
-                echo "-----5-"
+        echo "-----5-";
 
 
         try {
@@ -128,7 +128,7 @@ final class PhpPartFacade
             );
             return false;
         }
-                echo "-----6-"
+        echo "-----6-";
 
 
         BootstrapStageLogger::logDebug('Successfully completed bootstrap sequence', __LINE__, __FUNCTION__);
@@ -143,7 +143,7 @@ final class PhpPartFacade
                 . ' (probably either before call to bootstrap() or after failed call to bootstrap())'
             );
         }
-        echo "-----7-"
+        echo "-----7-";
 
         return self::$singletonInstance;
     }
@@ -499,11 +499,11 @@ final class PhpPartFacade
     private static function buildTracer(): ?Tracer
     {
         ($assertProxy = Assert::ifEnabled())
-        && $assertProxy->that(!GlobalTracerHolder::isValueSet())
-        && $assertProxy->withContext(
-            '!GlobalTracerHolder::isSet()',
-            ['GlobalTracerHolder::get()' => GlobalTracerHolder::getValue()]
-        );
+            && $assertProxy->that(!GlobalTracerHolder::isValueSet())
+            && $assertProxy->withContext(
+                '!GlobalTracerHolder::isSet()',
+                ['GlobalTracerHolder::get()' => GlobalTracerHolder::getValue()]
+            );
 
         $tracer = GlobalTracerHolder::getValue();
         if ($tracer->isNoop()) {
@@ -511,8 +511,8 @@ final class PhpPartFacade
         }
 
         ($assertProxy = Assert::ifEnabled())
-        && $assertProxy->that($tracer instanceof Tracer)
-        && $assertProxy->withContext('$tracer instanceof Tracer', ['get_class($tracer)' => get_class($tracer)]);
+            && $assertProxy->that($tracer instanceof Tracer)
+            && $assertProxy->withContext('$tracer instanceof Tracer', ['get_class($tracer)' => get_class($tracer)]);
         assert($tracer instanceof Tracer);
 
         return $tracer;
@@ -554,7 +554,7 @@ final class PhpPartFacade
      */
     public static function astInstrumentationDirectCall(string $method): void
     {
-        echo "--------------------9"
+        echo "--------------------9";
         if (($interceptionManager = self::singletonInstance()->interceptionManager) !== null) {
             $interceptionManager->astInstrumentationDirectCall($method);
         }
