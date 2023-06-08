@@ -62,9 +62,12 @@ final class PhpPartFacade
 
     private function __construct(float $requestInitStartTime)
     {
+        
+        echo "-----1-"
         if (!ElasticApmExtensionUtil::isLoaded()) {
             throw new RuntimeException(ElasticApmExtensionUtil::EXTENSION_NAME . ' extension is not loaded');
         }
+        echo "-----2-"
 
         $tracer = self::buildTracer();
         if ($tracer === null) {
@@ -74,6 +77,8 @@ final class PhpPartFacade
                 __FUNCTION__
             );
             return;
+                    echo "-----3-"
+
         }
 
         $this->transactionForExtensionRequest = new TransactionForExtensionRequest($tracer, $requestInitStartTime);
@@ -98,6 +103,7 @@ final class PhpPartFacade
             __LINE__,
             __FUNCTION__
         );
+        echo "-----4-"
 
         if (self::$singletonInstance !== null) {
             BootstrapStageLogger::logCritical(
@@ -108,6 +114,8 @@ final class PhpPartFacade
             );
             return false;
         }
+                echo "-----5-"
+
 
         try {
             self::$singletonInstance = new self($requestInitStartTime);
@@ -120,6 +128,8 @@ final class PhpPartFacade
             );
             return false;
         }
+                echo "-----6-"
+
 
         BootstrapStageLogger::logDebug('Successfully completed bootstrap sequence', __LINE__, __FUNCTION__);
         return true;
@@ -133,6 +143,7 @@ final class PhpPartFacade
                 . ' (probably either before call to bootstrap() or after failed call to bootstrap())'
             );
         }
+        echo "-----7-"
 
         return self::$singletonInstance;
     }
@@ -543,6 +554,7 @@ final class PhpPartFacade
      */
     public static function astInstrumentationDirectCall(string $method): void
     {
+        echo "--------------------9"
         if (($interceptionManager = self::singletonInstance()->interceptionManager) !== null) {
             $interceptionManager->astInstrumentationDirectCall($method);
         }
